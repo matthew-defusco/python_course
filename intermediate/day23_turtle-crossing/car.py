@@ -8,9 +8,8 @@ class Car(Turtle):
     self.penup()
     self.shapesize(stretch_len=2, stretch_wid=1)
     self.goto(300, random.randint(-250, 250))
-    self.seth(180)
     self.colors = ["red", "orange", "green", "blue", "purple"]
     self.color(random.choice(self.colors))
 
   def move(self):
-    self.fd(20)
+    self.backward(10)
