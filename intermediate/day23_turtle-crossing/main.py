@@ -42,7 +42,7 @@ while game_is_on:
     if jerry.ycor() > 300:
         scoreboard.gain_point()
         scoreboard.update_scoreboard()
-        sleep_time *= 0.85
+        sleep_time *= 0.5
         jerry.go_home()
 
 screen.exitonclick()
