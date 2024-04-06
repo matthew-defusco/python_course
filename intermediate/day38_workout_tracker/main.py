@@ -30,7 +30,7 @@ exercise = {
 }
 
 response = requests.post(exercise_endpoint, json=exercise, headers=exercise_headers)
-exercises = response.json()["exercises"]
+exercises = response.json()
 print(exercises)
 
 for exercise in exercises:
