@@ -10,11 +10,14 @@ class DataManager:
             "Authorization": f"Bearer {SECRET_TOKEN}"
         }
 
-    def get_records(self):
-        return requests.get(self.base_url, headers=self.sheety_headers)
+    def get_flight_records(self):
+        return requests.get(f"{self.base_url}/prices", headers=self.sheety_headers)
 
-    def update_record(self, id, data):
-        url = self.base_url + f"/{id}"
+    def get_user_records(self):
+        return requests.get(f"{self.base_url}/users", headers=self.sheety_headers)
+
+    def update_flight_record(self, id, data):
+        url = f"{self.base_url}/{id}"
         response = requests.put(url=url, json=data, headers=self.sheety_headers)
 
 

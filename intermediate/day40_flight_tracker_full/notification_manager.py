@@ -3,13 +3,21 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 
+import requests
 from flight_data import FlightData
 
 class NotificationManager:
     def __init__(self):
         self.from_email = "dev.testing.5878@gmail.com"
 
+
     def notify(self, flight: FlightData):
+        response = requests.get(
+                f"{os.environ['SHEETY_BASE_URL']}/users",
+                headers={"Authorization": f"Bearer {os.environ["SHEETY_FLIGHT_TOKEN"]}"}
+            )
+        recipients = [user["email"] for user in response.json()["users"]]
+
         arrival_string = flight.arrival_date.split()[0]
         year = int(arrival_string.split("-")[0])
         month = int(arrival_string.split("-")[1])
@@ -32,8 +40,8 @@ class NotificationManager:
 
         send_string = MIMEText(text_to_send.encode("utf-8"), _charset="utf-8")
         send_string["Subject"] = "Subject: There's a great flight deal ✈️"
-        send_string["From"] = self.from_email
-        send_string["To"] = "dev.testing5878@yahoo.com"
+        # send_string["From"] = self.from_email
+        send_string["To"] = ", ".join(recipients)
 
         with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
             connection.starttls()

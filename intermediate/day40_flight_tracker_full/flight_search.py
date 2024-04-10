@@ -61,6 +61,14 @@ class FlightSearch:
 
         try:
             data = response.json()["data"][0]
+            print(f"{to}: ${data["price"]}")
+        except IndexError:
+            print(f"There are no available flights from {params['fly_from']} to {params['fly_to']}"
+                  f"in the time range {params['date_from']} - {params['date_to']}"
+                  f" with only {params['max_stopovers']} layovers."
+                  )
+            return None
+        else:
             flight_data = FlightData(
                 price=data["price"],
                 origin_city=data["cityFrom"],
@@ -71,12 +79,6 @@ class FlightSearch:
                 arrival_date=str(datetime.strptime(data["local_arrival"], self.date_format)),
                 nights=data["nightsInDest"]
             )
-            print(f"{''.join(flight_data.destination_city)}: ${flight_data.price}")
             return flight_data
-        except IndexError:
-            print(f"There are no available flights from {params['fly_from']} to {params['fly_to']}"
-                  f"in the time range {params['date_from']} - {params['date_to']}"
-                  f" with only {params['max_stopovers']} layovers."
-                  )
 
 
