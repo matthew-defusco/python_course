@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Library</title>
+  </head>
+  <body>
+    <h1>My Library</h1>
+    {% if count == 0 %}
+    <p>There are no books in the libary!</p>
+    {% else %}
+    <ul>
+      {% for book in books %}
+      <li>
+        <button onclick="deleteBook('{{book.id}}')">Delete</button>
+        {{book.title}} - {{book.author}} - {{book.rating}}
+        <a href="{{url_for('edit', id=book.id)}}">Edit Rating</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </body>
+  <script>
+    async function deleteBook(id) {
+      const response = await fetch("http://127.0.0.1:5000/delete", {
+        method: "POST",
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      window.location.reload();
+    }
+  </script>
+</html>
